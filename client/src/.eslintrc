@@ -1,4 +1,8 @@
 {
+  "parser": "babel-eslint",
+  "plugins": [
+    "flowtype"
+  ],
   "extends": "airbnb",
   "rules": {
     "jsx-a11y/media-has-caption": 0,
