@@ -1,20 +1,21 @@
-import PropTypes from 'prop-types';
+// @flow
 import React from 'react';
 import HistorySong from '../components/HistorySong';
 
-const defaultProps = {
-  playingSongId: null,
-};
-
-const propTypes = {
-  isPlaying: PropTypes.bool.isRequired,
-  navigateTo: PropTypes.func.isRequired,
-  playlist: PropTypes.string.isRequired,
-  playingSongId: PropTypes.number,
-  playSong: PropTypes.func.isRequired,
-  showHistory: PropTypes.bool.isRequired,
-  songs: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  toggleShowHistory: PropTypes.func.isRequired,
+type Props = {
+  isPlaying: boolean,
+  navigateTo: Function,
+  playlist: string,
+  playingSongId: number | null,
+  playSong: Function,
+  showHistory: boolean,
+  songs: Array<{
+    artworkUrl?: string,
+    id?: number,
+    title?: string,
+    user: { id?: number, username?: string }
+  }>,
+  toggleShowHistory: Function
 };
 
 const History = ({
@@ -26,7 +27,7 @@ const History = ({
   showHistory,
   songs,
   toggleShowHistory,
-}) => {
+}: Props) => {
   if (!showHistory) {
     return null;
   }
@@ -72,7 +73,8 @@ const History = ({
   );
 };
 
-History.defaultProps = defaultProps;
-History.propTypes = propTypes;
+History.defaultProps = {
+  playingSongId: null,
+};
 
 export default History;

@@ -1,16 +1,19 @@
-/* global document */
-import PropTypes from 'prop-types';
+/* global document, HTMLAudioElement */
+/* @flow */
 import React, { Component } from 'react';
 
-const propTypes = {
-  index: PropTypes.number.isRequired,
-  isActive: PropTypes.bool.isRequired,
-  isPlaying: PropTypes.bool.isRequired,
-  playlist: PropTypes.string.isRequired,
-  playSong: PropTypes.func.isRequired,
+type Props = {
+  index: number,
+  isActive: boolean,
+  isPlaying: boolean,
+  playlist: string,
+  playSong: Function
 };
 
-class ArtworkPlay extends Component {
+class ArtworkPlay extends Component<Props> {
+  playSong: Function;
+  togglePlay: Function;
+
   constructor() {
     super();
     this.playSong = this.playSong.bind(this);
@@ -26,10 +29,12 @@ class ArtworkPlay extends Component {
     const { isPlaying } = this.props;
     const audioElement = document.getElementById('audio');
 
-    if (isPlaying) {
-      audioElement.pause();
-    } else {
-      audioElement.play();
+    if (audioElement instanceof HTMLAudioElement) {
+      if (isPlaying) {
+        audioElement.pause();
+      } else {
+        audioElement.play();
+      }
     }
   }
 
@@ -47,7 +52,5 @@ class ArtworkPlay extends Component {
     );
   }
 }
-
-ArtworkPlay.propTypes = propTypes;
 
 export default ArtworkPlay;

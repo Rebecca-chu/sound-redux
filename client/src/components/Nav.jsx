@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+// @flow
 import React from 'react';
 import Link from '../components/Link';
 import NavSearch from '../components/NavSearch';
@@ -6,26 +6,23 @@ import NavSession from '../components/NavSession';
 import NavUser from '../components/NavUser';
 import { SONGS_PATH } from '../constants/RouterConstants';
 
-const defaultProps = {
-  navPlaylist: null,
-  user: null,
-};
-
-const propTypes = {
-  fetchNewStreamSongs: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired,
-  loadNewStreamSongs: PropTypes.func.isRequired,
-  login: PropTypes.func.isRequired,
-  logout: PropTypes.func.isRequired,
-  navigateTo: PropTypes.func.isRequired,
-  navPlaylist: PropTypes.shape({}),
-  navPlaylists: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  newStreamSongs: PropTypes.arrayOf(PropTypes.number).isRequired,
-  showLikes: PropTypes.bool.isRequired,
-  showPlaylist: PropTypes.bool.isRequired,
-  showStream: PropTypes.bool.isRequired,
-  streamFutureUrl: PropTypes.string.isRequired,
-  user: PropTypes.shape({}),
+type Props = {
+  fetchNewStreamSongs: Function,
+  isAuthenticated: boolean,
+  loadNewStreamSongs: Function,
+  login: Function,
+  logout: Function,
+  navigateTo: Function,
+  navPlaylist: Object | null,
+  navPlaylists: Array<{
+    id: number, title: string, tracks: Array<{ id: number, artworkUrl: string }>
+  }>,
+  newStreamSongs: Array<number>,
+  showLikes: boolean,
+  showPlaylist: boolean,
+  showStream: boolean,
+  streamFutureUrl: string,
+  user: Object
 };
 
 const Nav = ({
@@ -43,7 +40,7 @@ const Nav = ({
   showStream,
   streamFutureUrl,
   user,
-}) => (
+}: Props) => (
   <div className="nav">
     <div className="nav__inner container">
       <div className="nav__section">
@@ -87,7 +84,9 @@ const Nav = ({
   </div>
 );
 
-Nav.defaultProps = defaultProps;
-Nav.propTypes = propTypes;
+Nav.defaultProps = {
+  navPlaylist: null,
+  user: null,
+};
 
 export default Nav;

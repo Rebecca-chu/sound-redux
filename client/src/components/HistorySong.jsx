@@ -1,21 +1,28 @@
-import PropTypes from 'prop-types';
+// @flow
 import React, { Component } from 'react';
 import ArtworkPlay from '../components/ArtworkPlay';
 import Link from '../components/Link';
 import { SONG_PATH, USER_PATH } from '../constants/RouterConstants';
 import getImageUrl from '../utils/ImageUtils';
 
-const propTypes = {
-  index: PropTypes.number.isRequired,
-  isActive: PropTypes.bool.isRequired,
-  isPlaying: PropTypes.bool.isRequired,
-  navigateTo: PropTypes.func.isRequired,
-  playlist: PropTypes.string.isRequired,
-  playSong: PropTypes.func.isRequired,
-  song: PropTypes.shape({}).isRequired,
+type Props = {
+  index: number,
+  isActive: boolean,
+  isPlaying: boolean,
+  navigateTo: Function,
+  playlist: string,
+  playSong: Function,
+  song: {
+    artworkUrl?: string,
+    id?: number,
+    title?: string,
+    user: { id?: number, username?: string }
+  }
 };
 
-class HistorySong extends Component {
+class HistorySong extends Component<Props> {
+  onClick: Function;
+
   render() {
     const { index, isActive, isPlaying, navigateTo, playlist, playSong, song } = this.props;
     const { artworkUrl, id, title, user } = song;
@@ -62,7 +69,5 @@ class HistorySong extends Component {
     );
   }
 }
-
-HistorySong.propTypes = propTypes;
 
 export default HistorySong;

@@ -1,15 +1,17 @@
-import PropTypes from 'prop-types';
+// @flow
 import React from 'react';
 import Link from '../components/Link';
 import { PLAYLIST_PATH } from '../constants/RouterConstants';
 import getImageUrl from '../utils/ImageUtils';
 
-const propTypes = {
-  navigateTo: PropTypes.func.isRequired,
-  playlist: PropTypes.shape({}).isRequired,
+type Props = {
+  navigateTo: Function,
+  playlist: {
+    id: number, title: string, tracks: Array<{ id: number, artworkUrl: string }>
+  }
 };
 
-const NavPlaylistsItem = ({ navigateTo, playlist }) => {
+const NavPlaylistsItem = ({ navigateTo, playlist }: Props) => {
   const { id, title, tracks } = playlist;
 
   return (
@@ -40,7 +42,5 @@ const NavPlaylistsItem = ({ navigateTo, playlist }) => {
     </Link>
   );
 };
-
-NavPlaylistsItem.propTypes = propTypes;
 
 export default NavPlaylistsItem;

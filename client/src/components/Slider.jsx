@@ -1,17 +1,13 @@
 /* global document */
-import PropTypes from 'prop-types';
+// @flow
 import React, { Component } from 'react';
 import offsetLeft from '../utils/DomUtils';
 
-const defaultProps = {
-  className: '',
-};
-
-const propTypes = {
-  className: PropTypes.string,
-  max: PropTypes.number.isRequired,
-  onChange: PropTypes.func.isRequired,
-  value: PropTypes.number.isRequired,
+type Props = {
+  className: string,
+  max: number,
+  onChange: Function,
+  value: number
 };
 
 const prevent = (e) => {
@@ -19,7 +15,17 @@ const prevent = (e) => {
   e.stopPropagation();
 };
 
-class Slider extends Component {
+class Slider extends Component<Props> {
+  static defaultProps = {
+    className: '',
+  };
+
+  onClick: Function
+  onMouseDown: Function
+  onMouseMove: Function
+  onMouseUp: Function
+  domNode: HTMLDivElement | null
+
   constructor() {
     super();
     this.onClick = this.onClick.bind(this);
@@ -34,7 +40,7 @@ class Slider extends Component {
     document.removeEventListener('mouseup', this.onMouseUp);
   }
 
-  onClick(e) {
+  onClick(e: SyntheticMouseEvent<HTMLDivElement>) {
     const { max, onChange } = this.props;
     const percent = (e.clientX - offsetLeft(e.currentTarget)) / e.currentTarget.offsetWidth;
     onChange(percent * max);
@@ -45,13 +51,15 @@ class Slider extends Component {
     document.addEventListener('mouseup', this.onMouseUp);
   }
 
-  onMouseMove(e) {
+  onMouseMove(e: SyntheticMouseEvent<HTMLElement>) {
     const { domNode, props } = this;
     const { max, onChange } = props;
 
-    const diff = e.clientX - offsetLeft(domNode);
-    const percent = Math.min(Math.max(diff / domNode.offsetWidth, 0), 1);
-    onChange(percent * max);
+    if (domNode) {
+      const diff = e.clientX - offsetLeft(domNode);
+      const percent = Math.min(Math.max(diff / domNode.offsetWidth, 0), 1);
+      onChange(percent * max);
+    }
   }
 
   onMouseUp() {
@@ -90,8 +98,5 @@ class Slider extends Component {
     );
   }
 }
-
-Slider.defaultProps = defaultProps;
-Slider.propTypes = propTypes;
 
 export default Slider;

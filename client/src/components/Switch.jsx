@@ -1,17 +1,19 @@
-import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+// @flow
+import React from 'react';
 
-const defaultProps = {
-  args: [],
+type Props = {
+  args: Array<any>,
+  on: boolean,
+  onClick: Function,
 };
 
-const propTypes = {
-  args: PropTypes.arrayOf(PropTypes.any),
-  on: PropTypes.bool.isRequired,
-  onClick: PropTypes.func.isRequired,
-};
+class Switch extends React.Component<Props> {
+  static defaultProps = {
+    args: [],
+  };
 
-class Switch extends Component {
+  onClick: Function;
+
   constructor() {
     super();
     this.onClick = this.onClick.bind(this);
@@ -36,8 +38,5 @@ class Switch extends Component {
     );
   }
 }
-
-Switch.defaultProps = defaultProps;
-Switch.propTypes = propTypes;
 
 export default Switch;

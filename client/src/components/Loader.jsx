@@ -1,18 +1,14 @@
-import PropTypes from 'prop-types';
+// @flow
 import React from 'react';
+import type { Node as ReactNode } from 'react';
 
-const defaultProps = {
-  children: null,
-  className: '',
+type Props = {
+  children: ReactNode,
+  className: string,
+  isLoading: boolean,
 };
 
-const propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  isLoading: PropTypes.bool.isRequired,
-};
-
-const Loader = ({ children, className, isLoading }) => {
+const Loader = ({ children, className, isLoading }: Props) => {
   if (isLoading) {
     return (
       <div className={`loader ${className}`}>
@@ -30,7 +26,9 @@ const Loader = ({ children, className, isLoading }) => {
   return children;
 };
 
-Loader.defaultProps = defaultProps;
-Loader.propTypes = propTypes;
+Loader.defaultProps = {
+  children: null,
+  className: '',
+};
 
 export default Loader;

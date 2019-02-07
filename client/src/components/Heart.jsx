@@ -1,25 +1,27 @@
-import PropTypes from 'prop-types';
+// @flow
 import React, { Component } from 'react';
 import HeartCount from '../components/HeartCount';
 import LoginPopoverPanel from '../components/LoginPopoverPanel';
 import Popover from '../components/Popover';
 
-const defaultProps = {
-  className: '',
-  favoritingsCount: null,
+type Props = {
+  className: string,
+  favoritingsCount: number | null,
+  id: number,
+  isAuthenticated: boolean,
+  liked: boolean,
+  login: Function,
+  toggleLike: Function
 };
 
-const propTypes = {
-  className: PropTypes.string,
-  favoritingsCount: PropTypes.number,
-  id: PropTypes.number.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired,
-  liked: PropTypes.bool.isRequired,
-  login: PropTypes.func.isRequired,
-  toggleLike: PropTypes.func.isRequired,
-};
+class Heart extends Component<Props> {
+  static defaultProps = {
+    className: '',
+    favoritingsCount: null,
+  };
 
-class Heart extends Component {
+  onClick: Function;
+
   constructor() {
     super();
     this.onClick = this.onClick.bind(this);
@@ -59,8 +61,5 @@ class Heart extends Component {
     );
   }
 }
-
-Heart.defaultProps = defaultProps;
-Heart.propTypes = propTypes;
 
 export default Heart;

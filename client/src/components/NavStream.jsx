@@ -1,18 +1,21 @@
-import PropTypes from 'prop-types';
+// @flow
 import React, { Component } from 'react';
 import Link from '../components/Link';
 import { SONGS_PATH } from '../constants/RouterConstants';
 
-const propTypes = {
-  fetchNewStreamSongs: PropTypes.func.isRequired,
-  loadNewStreamSongs: PropTypes.func.isRequired,
-  navigateTo: PropTypes.func.isRequired,
-  newStreamSongs: PropTypes.arrayOf(PropTypes.number).isRequired,
-  showStream: PropTypes.bool.isRequired,
-  streamFutureUrl: PropTypes.string.isRequired,
+type Props = {
+  fetchNewStreamSongs: Function,
+  loadNewStreamSongs: Function,
+  navigateTo: Function,
+  newStreamSongs: Array<number>,
+  showStream: boolean,
+  streamFutureUrl: string
 };
 
-class NavStream extends Component {
+class NavStream extends Component<Props> {
+  interval: IntervalID | null;
+  onClick: Function;
+
   constructor() {
     super();
     this.interval = null;
@@ -29,7 +32,9 @@ class NavStream extends Component {
   }
 
   componentWillUnmount() {
-    clearInterval(this.interval);
+    if (this.interval) {
+      clearInterval(this.interval);
+    }
     this.interval = null;
   }
 
@@ -63,7 +68,5 @@ class NavStream extends Component {
     );
   }
 }
-
-NavStream.propTypes = propTypes;
 
 export default NavStream;

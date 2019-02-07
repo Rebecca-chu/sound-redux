@@ -1,33 +1,40 @@
-import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+// @flow
+import React from 'react';
+import type { Node as ReactNode } from 'react';
 import { compileHash } from '../utils/RouterUtils';
 
-const defaultProps = {
-  className: '',
-  keys: {},
-  onClick: null,
-  options: {},
-  title: '',
+type Props = {
+  children: ReactNode,
+  className: string,
+  onClick: (() => void) | null,
+  navigateTo: ({
+    path: string,
+    keys: { id?: number },
+    options?: { s?: string, g?: string, t?: string, q?: string }
+  }) => void,
+  keys: { id?: number },
+  options: { s?: string, g?: string, t?: string, q?: string },
+  path: string,
+  title: string,
 };
 
-const propTypes = {
-  children: PropTypes.node.isRequired,
-  className: PropTypes.string,
-  onClick: PropTypes.func,
-  navigateTo: PropTypes.func.isRequired,
-  keys: PropTypes.shape({}),
-  options: PropTypes.shape({}),
-  path: PropTypes.string.isRequired,
-  title: PropTypes.string,
-};
+class Link extends React.Component<Props> {
+  static defaultProps = {
+    className: '',
+    keys: {},
+    onClick: null,
+    options: {},
+    title: '',
+  };
 
-class Link extends Component {
+  onClick: Function;
+
   constructor() {
     super();
     this.onClick = this.onClick.bind(this);
   }
 
-  onClick(e) {
+  onClick(e: SyntheticMouseEvent<HTMLButtonElement>) {
     e.preventDefault();
     const { keys, navigateTo, onClick, options, path } = this.props;
     navigateTo({ path, keys, options });
@@ -51,8 +58,5 @@ class Link extends Component {
     );
   }
 }
-
-Link.defaultProps = defaultProps;
-Link.propTypes = propTypes;
 
 export default Link;

@@ -1,11 +1,11 @@
-import PropTypes from 'prop-types';
+// @flow
 import React from 'react';
 
-const propTypes = {
-  logout: PropTypes.func.isRequired,
+type Props = {
+  logout: Function,
 };
 
-const SessionPopoverPanel = ({ logout }) => (
+const SessionPopoverPanel = ({ logout }: Props) => (
   <div
     className="popover__panel__item"
     onClick={logout}
@@ -15,7 +15,5 @@ const SessionPopoverPanel = ({ logout }) => (
     Logout
   </div>
 );
-
-SessionPopoverPanel.propTypes = propTypes;
 
 export default SessionPopoverPanel;

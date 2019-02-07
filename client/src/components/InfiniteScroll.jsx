@@ -1,22 +1,24 @@
-/* global document */
-/* global window */
-import PropTypes from 'prop-types';
+/* global window, document, HTMLBodyElement */
+// @flow
 import React, { Component } from 'react';
+import type { Node as ReactNode } from 'react';
 
-const defaultProps = {
-  args: [],
-  className: '',
+type Props = {
+  args: Array<any>,
+  children: ReactNode,
+  className: string,
+  onScroll: Function
 };
 
-const propTypes = {
-  args: PropTypes.arrayOf(PropTypes.any),
-  children: PropTypes.node.isRequired,
-  className: PropTypes.string,
-  onScroll: PropTypes.func.isRequired,
-};
+class InfiniteScroll extends Component<Props> {
+  static defaultProps = {
+    args: [],
+    className: '',
+  }
 
-class InfiniteScroll extends Component {
-  constructor(props) {
+  onScroll: Function
+
+  constructor(props: Props) {
     super(props);
     this.onScroll = this.onScroll.bind(this);
   }
@@ -30,9 +32,11 @@ class InfiniteScroll extends Component {
   }
 
   onScroll() {
-    if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight - 200)) {
-      const { args, onScroll } = this.props;
-      onScroll(...args);
+    if (document.body instanceof HTMLBodyElement) {
+      if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight - 200)) {
+        const { args, onScroll } = this.props;
+        onScroll(...args);
+      }
     }
   }
 
@@ -45,8 +49,5 @@ class InfiniteScroll extends Component {
     );
   }
 }
-
-InfiniteScroll.defaultProps = defaultProps;
-InfiniteScroll.propTypes = propTypes;
 
 export default InfiniteScroll;

@@ -1,14 +1,18 @@
-/* global document */
-import PropTypes from 'prop-types';
+/* global document, HTMLElement */
+/* @flow */
 import React, { Component } from 'react';
 import { SONGS_PATH } from '../constants/RouterConstants';
 
-const propTypes = {
-  navigateTo: PropTypes.func.isRequired,
+type Props = {
+  navigateTo: Function,
 };
 
-class NavSearch extends Component {
-  constructor(props) {
+class NavSearch extends Component<Props> {
+  onKeyDown: Function;
+  onKeyPress: Function;
+  input: HTMLInputElement | null;
+
+  constructor(props: Props) {
     super(props);
     this.onKeyDown = this.onKeyDown.bind(this);
     this.onKeyPress = this.onKeyPress.bind(this);
@@ -23,20 +27,24 @@ class NavSearch extends Component {
     document.removeEventListener('keydown', this.onKeyDown, false);
   }
 
-  onKeyDown(e) {
+  onKeyDown(e: KeyboardEvent) {
     if (e.keyCode === 191) {
-      const insideInput = e.target.tagName.toLowerCase().match(/input|textarea/);
+      const insideInput = (e.target instanceof HTMLElement) ?
+        e.target.tagName.toLowerCase().match(/input|textarea/) : false;
+
       if (!insideInput) {
         e.preventDefault();
-        this.input.focus();
+        if (this.input) { this.input.focus(); }
       }
     }
   }
 
-  onKeyPress(e) {
+  onKeyPress(e: KeyboardEvent) {
     if (e.charCode === 13) {
       const { navigateTo } = this.props;
-      const value = e.currentTarget.value.trim();
+      const value = (e.currentTarget instanceof HTMLInputElement) ?
+        e.currentTarget.value.trim() : '';
+
       if (value !== '') {
         navigateTo({
           keys: {},
@@ -62,7 +70,5 @@ class NavSearch extends Component {
     );
   }
 }
-
-NavSearch.propTypes = propTypes;
 
 export default NavSearch;
