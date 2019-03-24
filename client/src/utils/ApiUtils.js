@@ -19,7 +19,7 @@ export const callApi = (url, options) =>
 export const loginToSoundCloud = (clientId) => {
   SC.initialize({
     client_id: clientId,
-    redirect_uri: `${window.location.protocol}//${window.location.host}/api/callback`,
+    redirect_uri: `${window.location.protocol}//${window.location.host}/callback`,
   });
 
   return SC.connect()
